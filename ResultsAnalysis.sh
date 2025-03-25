@@ -41,7 +41,7 @@ SlowestAndFastest() {
 RankByAvg(){
 	logToLog "INFO" "ResultsAnalysis.sh" "starting_Rank_By_Avg"
 	echo "Ranking:" >> ResultsAnalysis.txt
-	sort -k7 -n "$input_file" | awk '{print $1}' >> ResultsAnalysis.txt
+	sort -k7 -n "$input_file" | awk '{print $1, $7}' >> ResultsAnalysis.txt
 	logToLog "INFO" "ResultsAnalysis.sh" "wrote_ranking_to_$input_file"
 }
 
