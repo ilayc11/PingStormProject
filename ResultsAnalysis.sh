@@ -16,21 +16,19 @@ SlowestAndFastest() {
 	slowestTime=0
 	slowestSite=""
 	while read -r site t1 t2 t3 t4 t5 avgT; do 
-	if [[ -z "$site" ]]; then
-		continue
-	fi
-		for time in $t1 $t2 $t3 $t4 $t5; do
-			#fastest
-			if (( $(echo "$time < $fastestTime" | bc -l) )); then
-				fastestTime=$time
-				fastestSite=$site
-			fi
-			#slowest
-			if (( $(echo "$time > $slowestTime" | bc -l) )); then
-				slowestTime=$time
-				slowestSite=$site
-			fi
-		done
+		if [[ -z "$site" ]]; then
+			continue
+		fi
+		#fastest
+		if (( $(echo "$avgT < $fastestTime" | bc -l) )); then
+			fastestTime=$avgT
+			fastestSite=$site
+		fi
+		#slowest
+		if (( $(echo "$avgT > $slowestTime" | bc -l) )); then
+			slowestTime=$avgT
+			slowestSite=$site
+		fi
 	done < "$input_file"
 	logToLog "INFO" "ResultsAnalysis.sh" "found_Slowest_And_Fastest"
 	echo "Slowest: $slowestSite $slowestTime" >> ResultsAnalysis.txt
@@ -41,7 +39,7 @@ SlowestAndFastest() {
 RankByAvg(){
 	logToLog "INFO" "ResultsAnalysis.sh" "starting_Rank_By_Avg"
 	echo "Ranking:" >> ResultsAnalysis.txt
-	sort -k7 -n "$input_file" | awk '{print $1, $7}' >> ResultsAnalysis.txt
+	sort -k7 -n "$input_file" | awk '{print $1 $7}' >> ResultsAnalysis.txt
 	logToLog "INFO" "ResultsAnalysis.sh" "wrote_ranking_to_$input_file"
 }
 
