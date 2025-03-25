@@ -4,7 +4,6 @@ fastestTime=9999999
 fastestSite=""
 slowestTime=0
 slowestSite=""
-
 while read -r site t1 t2 t3 t4 t5 avgT; do
 if [[ -z "$site" ]]; then
 	continue
@@ -21,17 +20,18 @@ fi
 			slowestSite=$site
 		fi
 	done
-done
+done < "$input_file"
+echo "fastest time=$fastestTime fastest site=$fastestSite slowest time=$slowestTime slowest site=$slowestSite"
 }
 
-RankByAvg(){
-}
+#RankByAvg(){
+#}
 
-ShowRank(){
-}
+#ShowRank(){
+#}
 
-calculateAvgOfAvg(){
-}
+#calculateAvgOfAvg(){
+#}
 input_file="PingResults.txt"
 SlowestAndFastest 
 
