@@ -117,7 +117,7 @@ Internal activity log of the script with timestamped messages using the format:
 
 This project is developed by the **TCP – TechCyberPoint** team.
 
-For questions, collaboration, or contributions, feel free to reach out via [LinkedIn](https://www.linkedin.com) or your preferred platform.
+For questions, collaboration, or contributions, feel free to reach out via [LinkedIn]([https://www.linkedin.com](https://www.linkedin.com/groups/9897560/)) or your preferred platform.
 
 ---
 
