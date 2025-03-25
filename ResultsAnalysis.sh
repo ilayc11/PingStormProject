@@ -21,17 +21,32 @@ SlowestAndFastest() {
 			fi
 		done
 	done < "$input_file"
-	echo "fastest time=$fastestTime fastest site=$fastestSite slowest time=$slowestTime slowest site=$slowestSite"
+	echo "Slowest: $slowestSite $slowestTime" >> ResultsAnalysis.txt
+	echo "Fastest: $fastestSite $fastestTime" >> ResultsAnalysis.txt
 }
 
-#RankByAvg(){
-#}
+RankByAvg(){
+echo "Ranking:" >> ResultsAnalysis.txt
+sort -k7 -n "$input_file" | awk '{print $1}' >> ResultsAnalysis.txt
+}
 
-#ShowRank(){
-#}
 
-#calculateAvgOfAvg(){
-#}
+calculateAvgOfAvg(){
+avgSum=0
+numberOfSites=0
+while read -r site t1 t2 t3 t4 t5 avgT; do 
+	if [[ -z "$site" ]]; then
+		continue
+	fi
+	(( avgSum = avgSum + avgT ))
+	(( numberOfSites = numberOfSites + 1 ))
+done < "$input_file"
+echo "Overall avg latency: $(echo "scale=3; $avgSum / $numberOfSites" | bc -l)" >> ResultsAnalysis.txt
+}
 input_file="PingResults.txt"
-SlowestAndFastest 
+SlowestAndFastest
+RankByAvg
+calculateAvgOfAvg
+
+
 

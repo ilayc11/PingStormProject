@@ -1,0 +1,12 @@
+Slowest: google.com 70
+Fastest: facebook.com 10
+Ranking:
+facebook.com
+google.com
+Overall avg latency: 20.00000000000000000000
+Slowest: google.com 70
+Fastest: facebook.com 10
+Ranking:
+facebook.com
+google.com
+Overall avg latency: 20.00
