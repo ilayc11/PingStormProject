@@ -1,6 +1,6 @@
 # PingStormProject
 # PingStorm.sh - TCP | TechCyberPoint
-# Members: Yosi + Ofir + 
+# Members: Yosi Leviev + Ofir Or + 
 
 ## 🎯 Project Overview
 
