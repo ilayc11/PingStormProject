@@ -1,6 +1,17 @@
- [INFO] [ResultsAnalysis.sh] [Finding_Slowest_And_Fastest]
- [INFO] [ResultsAnalysis.sh] [found_Slowest_And_Fastest]
- [INFO] [ResultsAnalysis.sh] [wrote_to_PingResults.txt]
-25/03/2025 10:26:41 [INFO] ResultsAnalysis.sh Finding_Slowest_And_Fastest
-25/03/2025 10:26:41 [INFO] ResultsAnalysis.sh found_Slowest_And_Fastest
-25/03/2025 10:26:41 [INFO] ResultsAnalysis.sh wrote_to_PingResults.txt
+25/03/2025 10:37:48 [INFO] ResultsAnalysis.sh starting_search_Slowest_And_Fastest
+25/03/2025 10:37:48 [INFO] ResultsAnalysis.sh found_Slowest_And_Fastest
+25/03/2025 10:37:48 [INFO] ResultsAnalysis.sh wrote_slowest_and_fastest_to_PingResults.txt
+25/03/2025 10:37:48 [INFO] ResultsAnalysis.sh starting_Rank_By_Avg
+25/03/2025 10:37:48 [INFO] ResultsAnalysis.sh wrote_ranking_to_PingResults.txt
+25/03/2025 10:37:48 [INFO] ResultsAnalysis.sh starting_avg_of_avg_calculation
+25/03/2025 10:37:48 [INFO] ResultsAnalysis.sh wrote_avg_of_avg_to_PingResults.txt
+25/03/2025 10:37:48 [INFO] ResultsAnalysis.sh finished_script
+25/03/2025 10:39:20 [INFO] ResultsAnalysis.sh started_script
+25/03/2025 10:39:20 [INFO] ResultsAnalysis.sh starting_search_Slowest_And_Fastest
+25/03/2025 10:39:20 [INFO] ResultsAnalysis.sh found_Slowest_And_Fastest
+25/03/2025 10:39:20 [INFO] ResultsAnalysis.sh wrote_slowest_and_fastest_to_PingResults.txt
+25/03/2025 10:39:20 [INFO] ResultsAnalysis.sh starting_Rank_By_Avg
+25/03/2025 10:39:20 [INFO] ResultsAnalysis.sh wrote_ranking_to_PingResults.txt
+25/03/2025 10:39:20 [INFO] ResultsAnalysis.sh starting_avg_of_avg_calculation
+25/03/2025 10:39:20 [INFO] ResultsAnalysis.sh wrote_avg_of_avg_to_PingResults.txt
+25/03/2025 10:39:20 [INFO] ResultsAnalysis.sh finished_script

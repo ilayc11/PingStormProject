@@ -1,11 +1,16 @@
 #!/bin/bash
+input_file="PingResults.txt"
+log_file="pingstorm.log"
+
+
+
 logToLog(){
-timestamp=$(date +"%d/%m/%Y %H:%M:%S")
-echo "$timestamp [$1] $2 $3" >> "$log_file"
+	timestamp=$(date +"%d/%m/%Y %H:%M:%S")
+	echo "$timestamp [$1] $2 $3" >> "$log_file"
 }
 
 SlowestAndFastest() {
-	logToLog "INFO" "ResultsAnalysis.sh" "Finding_Slowest_And_Fastest"
+	logToLog "INFO" "ResultsAnalysis.sh" "starting_search_Slowest_And_Fastest"
 	fastestTime=9999999
 	fastestSite=""
 	slowestTime=0
@@ -58,9 +63,6 @@ calculateAvgOfAvg(){
 
 
 logToLog "INFO" "ResultsAnalysis.sh" "started_script"
-
-input_file="PingResults.txt"
-log_file="pingstorm.log"
 
 if [[ ! -e "$input_file" ]]; then
 	echo "input file doesnt exist!"
