@@ -1,5 +1,5 @@
-Slowest: google.com 70
-Fastest: facebook.com 10
+Slowest: google.com 20
+Fastest: google.com 20
 Ranking:
 facebook.com 20
 google.com 20

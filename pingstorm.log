@@ -33,3 +33,14 @@
 25/03/2025 10:50:50 [INFO] ResultsAnalysis.sh starting_avg_of_avg_calculation
 25/03/2025 10:50:50 [INFO] ResultsAnalysis.sh wrote_avg_of_avg_to_PingResults.txt
 25/03/2025 10:50:50 [INFO] ResultsAnalysis.sh finished_script
+[2025-03-25 13:31:39] | INFO | ResultsAnalysis.sh/init | Script started
+[2025-03-25 13:31:39] | INFO | ResultsAnalysis.sh/init | input file exist and valid
+[2025-03-25 13:31:39] | INFO | ResultsAnalysis.sh/main | starting main analysis
+[2025-03-25 13:31:39] | INFO | ResultsAnalysis.sh/SlowestAndFastest | Starting search for Slowest and Fastest
+[2025-03-25 13:31:39] | INFO | ResultsAnalysis.sh/SlowestAndFastest | Found slowest and fastest sites
+[2025-03-25 13:31:39] | INFO | ResultsAnalysis.sh/SlowestAndFastest | wrote to output file
+[2025-03-25 13:31:39] | INFO | ResultsAnalysis.sh/RankByAvg | Starting ranking by average
+[2025-03-25 13:31:39] | INFO | ResultsAnalysis.sh/RankByAvg | Wrote ranking to ResultsAnalysis.txt
+[2025-03-25 13:31:39] | INFO | ResultsAnalysis.sh/calculateAvgOfAvg | Starting avg-of-avg calculation
+[2025-03-25 13:31:39] | INFO | ResultsAnalysis.sh/calculateAvgOfAvg | Calculated avg-of-avg successfully
+[2025-03-25 13:31:39] | SUCCESS | ResultsAnalysis.sh/main | Finished script successfully
