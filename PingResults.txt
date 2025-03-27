@@ -1,0 +1,2 @@
+google.com 50 30 20 70 50 20
+facebook.com 50 20 10 30 70 20

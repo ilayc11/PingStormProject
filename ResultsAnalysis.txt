@@ -1,0 +1,6 @@
+Slowest: google.com 20
+Fastest: google.com 20
+Ranking:
+facebook.com 20
+google.com 20
+Overall avg latency: 20.000
