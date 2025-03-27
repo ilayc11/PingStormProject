@@ -3,10 +3,13 @@
 # =========================================================
 # Control.sh - PingStorm Control Panel
 # Author: TechCyberPoint Team
-# Description: Menu to start, stop, check or tail PingStorm
+# Description: Menu to run, stop, analyze and report PingStorm
 # =========================================================
 
 PINGSTORM_SCRIPT="./PingStorm.sh"
+ANALYSIS_SCRIPT="./ResultsAnalysis.sh"
+REPORT_SCRIPT="./visualization.sh"
+
 LOG_FILE="ping_log.txt"
 PID_FILE="pingstorm.pid"
 TARGET_FILE="TargetPing.txt"
@@ -19,7 +22,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# Logging function (same format as other scripts)
+# Logging function
 log_msg() {
   local type=$1
   local source=$2
@@ -46,10 +49,13 @@ echo "  1 - Start PingStorm"
 echo "  2 - Stop PingStorm"
 echo "  3 - Check if it's running"
 echo "  4 - Show last 10 log lines"
+echo "  5 - Run Analysis"
+echo "  6 - Show Report"
+echo "  7 - Run Full Cycle (Ping + Analysis + Report)"
 echo -e "==============================================${NC}"
-read -p "Enter your choice (1-4): " CHOICE
+read -p "Enter your choice (1-7): " CHOICE
 
-# Option 1 – Start
+# Option 1 – Start Ping
 if [ "$CHOICE" == "1" ]; then
   if [ ! -f "$TARGET_FILE" ]; then
     log_msg "WARN" "start" "'$TARGET_FILE' not found. Creating default..."
@@ -110,7 +116,7 @@ elif [ "$CHOICE" == "3" ]; then
     log_msg "INFO" "check" "PingStorm is not running"
   fi
 
-# Option 4 – Tail log
+# Option 4 – Show log
 elif [ "$CHOICE" == "4" ]; then
   if [ -f "$LOG_FILE" ]; then
     echo -e "\n🔍 Last 10 lines from $LOG_FILE:\n"
@@ -120,7 +126,27 @@ elif [ "$CHOICE" == "4" ]; then
     log_msg "ERROR" "log" "Log file not found"
   fi
 
-# Invalid input
+# Option 5 – Run ResultsAnalysis
+elif [ "$CHOICE" == "5" ]; then
+  log_msg "INFO" "analysis" "Running ResultsAnalysis..."
+  bash "$ANALYSIS_SCRIPT"
+  log_msg "SUCCESS" "analysis" "ResultsAnalysis finished."
+
+# Option 6 – Show Report
+elif [ "$CHOICE" == "6" ]; then
+  log_msg "INFO" "report" "Launching report visualization..."
+  bash "$REPORT_SCRIPT"
+  log_msg "SUCCESS" "report" "Report visualization finished."
+
+# Option 7 – Full cycle
+elif [ "$CHOICE" == "7" ]; then
+  log_msg "INFO" "full" "Running full cycle: ping + analysis + report..."
+  bash "$PINGSTORM_SCRIPT"
+  bash "$ANALYSIS_SCRIPT"
+  bash "$REPORT_SCRIPT"
+  log_msg "SUCCESS" "full" "Full cycle completed."
+
+# Invalid choice
 else
-  log_msg "ERROR" "menu" "Invalid option. Please choose between 1–4."
+  log_msg "ERROR" "menu" "Invalid option. Please choose between 1–7."
 fi
