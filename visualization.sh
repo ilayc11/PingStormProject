@@ -64,6 +64,8 @@ echo -e "🐢 Slowest: ${RED}${slowest_site} (${slowest_val} ms)${NC}"
 echo    "========================================"
 echo -e "${BLUE}Latency Ranking Visual:${NC}"
 
+echo ""
+
 ranking_start=$(grep -n "Ranking:" "$FILE" | cut -d: -f1)
 ranking_end=$(grep -n "Overall avg latency" "$FILE" | cut -d: -f1)
 
@@ -75,7 +77,7 @@ fi
 
 ranking_lines=$(tail -n +$((ranking_start + 1)) "$FILE" | head -n $((ranking_end - ranking_start - 1)))
 
-# Loop and draw bars
+valid_rows=0
 while read -r line; do
   [[ -z "$line" ]] && continue
   site=$(echo "$line" | awk '{print $1}')
@@ -85,11 +87,15 @@ while read -r line; do
     blocks=$(echo "$latency / 2" | bc)
     bar=$(printf '█%.0s' $(seq 1 $blocks))
     printf "%-15s | %-30s %s ms\n" "$site" "$bar" "$latency"
-  else
-    printf "%-15s | %-30s %s\n" "$site" "N/A" "$latency"
+    ((valid_rows++))
   fi
 
 done <<< "$ranking_lines"
+
+if [[ $valid_rows -eq 0 ]]; then
+  echo -e "${RED}⚠ No valid latency data found for visualization.${NC}"
+  log_msg "WARN" "visual" "No valid rows were drawn in chart"
+fi
 
 log_msg "SUCCESS" "main" "Visualization report completed"
 echo ""
