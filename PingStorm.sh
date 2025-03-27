@@ -143,4 +143,8 @@ while read -r domain; do
   ping_target "$domain"
 done < "$TARGET_FILE"
 
+<<<<<<< HEAD
 log_msg "SUCCESS" "main" "All ping tests completed"
+=======
+log_msg "SUCCESS" "main" "All ping tests completed"
+>>>>>>> Target-Service-List-and-Ping-Execution
