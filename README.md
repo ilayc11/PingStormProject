@@ -1,83 +1,109 @@
 # PingStormProject
-# PingStorm.sh - TCP | TechCyberPoint
-# Members: Yosi Leviev + Ofir Or + 
 
-## 🎯 Project Overview
-
-**PingStorm** is a professional Bash script developed as part of a collaborative project by the **TechCyberPoint (TCP)** team.  
-It serves as the **first function** in a toolchain designed for automated network diagnostics.
-
-This script performs ICMP `ping` tests to a predefined list of well-known domains and logs the results for further processing.
+## 🚀 PingStorm.sh – TechCyberPoint
+**Project Leads:** Yosi Leviev + Ofir Or + Team TCP
 
 ---
 
-## 🧰 What the Script Does
+## 🎯 Project Overview
 
-- Reads domains from `TargetPing.txt`
-- Sends 5 ICMP `ping` requests to each domain
-- Logs structured results to `PingResults.txt`
-- Outputs execution logs to `ping_log.txt`
-- Displays logs in the terminal **with color-coded messages**
-- Summarizes each domain scan with:
-  - Total Success / Failures
-  - Average response time (ms)
-- Supports running as **regular user** or **root**
+**PingStorm** is a modular and collaborative Bash toolkit developed by the **TechCyberPoint (TCP)** team. It performs structured `ping` diagnostics, generates logs, and serves as the **first step** in a multi-stage network analysis pipeline.
+
+It enables teams to:
+- Diagnose latency issues
+- Record structured ping data
+- Automate monitoring scripts
+- Visualize performance across domains
+
+---
+
+## 🧰 Core Features
+
+- ✅ Reads target domains from `TargetPing.txt`
+- ✅ Sends 5 ICMP ping requests per domain
+- ✅ Resolves IP address using `getent`
+- ✅ Logs results in clean tabular format (`PingResults.txt`)
+- ✅ Displays colored logs in terminal and saves them (`ping_log.txt`)
+- ✅ Calculates and appends average response time per domain
+- ✅ Fully modular and ready for scripting pipelines
 
 ---
 
 ## 🧠 Technologies Used
 
-| Component         | Description                                 |
-|------------------|---------------------------------------------|
-| **Bash**          | Script language                             |
-| **ping**          | Native network response tool                |
-| **getent**        | DNS resolver (to fetch IP address)          |
-| **bc**            | Command-line calculator (for averages)      |
-| **ANSI Colors**   | Colored log output via terminal             |
-| **Redirection**   | Standard I/O (`>>`) used for file outputs   |
+| Component       | Description                                     |
+|----------------|-------------------------------------------------|
+| **Bash**        | Primary scripting language                      |
+| **ping**        | ICMP-based connectivity checks                  |
+| **getent**      | Resolves domains to IP addresses                |
+| **bc**          | Used for calculating floating point averages    |
+| **ANSI Colors** | Terminal formatting for log types              |
+| **Redirection** | Structured output via `>>` append operators    |
 
 ---
 
 ## 📁 Project Structure
 
-📂 /project-folder/ ├── PingStorm.sh # Main Bash script ├── TargetPing.txt # List of target domains ├── PingResults.txt # Structured ping test results └── ping_log.txt # Execution and error logs
+```
+PingStormProject/
+├── PingStorm.sh           # Main execution script
+├── ResultsAnalysis.sh     # Analyzer module (phase 2)
+├── visualization.sh       # Final visualization report
+├── Control.sh             # Full system control menu
+├── TargetPing.txt         # List of domains to scan
+├── PingResults.txt        # Ping test raw results
+├── ResultsAnalysis.txt    # Analysis summary output
+├── ping_log.txt           # Unified execution log
+```
 
 ---
 
-## 🚀 How to Use
+## 🧪 How to Use (Basic Flow)
 
-1. **Create the domain target file**:
-    ```bash
-    echo -e "google.com\nfacebook.com\nyoutube.com\nlinkedin.com\ntiktok.com" > TargetPing.txt
-    ```
+```bash
+# 1. Make scripts executable
+chmod +x PingStorm.sh ResultsAnalysis.sh visualization.sh Control.sh
 
-2. **Make the script executable**:
-    ```bash
-    chmod +x PingStorm.sh
-    ```
+# 2. Run Control Panel Menu (recommended)
+./Control.sh
+```
 
-3. **Run the script**:
-    ```bash
-    ./PingStorm.sh
-    ```
+Inside the menu you’ll see options to:
+- Start ping
+- Analyze results
+- Show last logs
+- Run full cycle
+
+Alternatively, run manually:
+```bash
+./PingStorm.sh          # Ping domains
+./ResultsAnalysis.sh    # Analyze the output
+./visualization.sh      # Show report
+```
 
 ---
 
-## 📄 Output Files Description
+## 📄 Output Files Explained
 
-### 🔹 `PingResults.txt`
-A clean structured file containing:
-- Domain and resolved IP
-- ICMP sequence ID
-- Response time (ms)
-- Error codes (if any)
-- Status: Success / Failed
-- Summary block after each domain
+### 📘 `PingResults.txt`
+- Format: `domain t1 t2 t3 t4 t5 avg`
+- Each row represents a domain
+- Used later by analyzer and report scripts
 
-### 🔸 `ping_log.txt`
-Internal activity log of the script with timestamped messages using the format:
+### 📙 `ResultsAnalysis.txt`
+- Output summary of the analysis phase
+- Includes:
+  - Fastest / Slowest domain
+  - Full ranking by latency
+  - Overall average
 
-[2025-03-25 12:30:12] | INFO | PingStorm.sh/init | Script started
+### 📕 `ping_log.txt`
+- Full logs of all scripts
+- Uses format:
+  ```
+  [YYYY-MM-DD HH:MM:SS] | TYPE | ScriptName/Function | Message
+  ```
+- Includes `INFO`, `SUCCESS`, `ERROR`, `WARN`
 
 ---
 
@@ -85,52 +111,61 @@ Internal activity log of the script with timestamped messages using the format:
 
 | Type     | Color     | Description                          |
 |----------|-----------|--------------------------------------|
-| INFO     | Blue      | General process info                |
+| INFO     | Blue      | General process status               |
 | SUCCESS  | Green     | Completed operations                 |
-| ERROR    | Red       | DNS issues, connection failures      |
-| WARN     | Yellow    | Warnings and recoverable problems    |
+| ERROR    | Red       | Failures (e.g. DNS, ping failure)    |
+| WARN     | Yellow    | Warnings or recoverable issues       |
 
 ---
 
-## 👨‍💻 For Developers
-
-- **Clean, readable Bash code** with inline comments.
-- **Modular structure**: separate functions for logging and ping logic.
-- Ready for integration into:
-  - Automation pipelines
-  - Monitoring tools
-  - CSV generation modules (in future stages)
-- Supports both file logging and live terminal feedback.
-
----
-
-## 🔮 Future Enhancements
-
-- CSV format support (via next script/module in the chain)
-- Multi-threaded scanning with `parallel` or `xargs`
-- Logging response history per domain
-- Integration with dashboards or reporting tools
+## 🖥 Report Example (From `visualization.sh`)
+```
+🌐 PINGSTORM REPORT
+========================================
+📊 Average Latency: 21.47 ms
+✅ Fastest: google.com (7.21 ms)
+🐢 Slowest: facebook.com (84.55 ms)
+========================================
+Latency Ranking Visual:
+facebook.com     | ████████████████████████████████████ 84.55 ms
+google.com       | ██████                             7.21 ms
+youtube.com      | ██████████                         25.00 ms
+```
 
 ---
 
-## 📞 Contact
+## 👨‍💻 Developer Notes
 
-This project is developed by the **TCP – TechCyberPoint** team.
-
-For questions, collaboration, or contributions, feel free to reach out via [LinkedIn]([https://www.linkedin.com](https://www.linkedin.com/groups/9897560/)) or your preferred platform.
+- Modular: each script is standalone, chainable, or replaceable
+- Easy to debug: logs + colors + errors
+- Ready for:
+  - CSV conversion
+  - Crontab integration
+  - CI pipelines
 
 ---
 
+## 🔮 Future Roadmap
 
+- [ ] Export results directly to CSV/JSON
+- [ ] Add domain response history per day
+- [ ] Web dashboard (future stage)
+- [ ] Run scans in parallel (`xargs`, `parallel`)
 
+---
 
+## 🧑‍🤝‍🧑 Team & Credits
 
+This project was developed by the **TCP – TechCyberPoint** team:
+- 👨‍💻 Yosi Leviev (Lead developer)
+- 🧠 Ofir Or (Logic and analysis)
+- 🌐 Community contributions (coming soon)
 
+---
 
+## 📬 Contact
 
+For collaborations, feedback, or contributions:
+📩 [LinkedIn Group – TCP](https://www.linkedin.com/groups/9897560/)
 
-
-
-
-
-
+---
