@@ -1,126 +1,137 @@
 #!/bin/bash
 
-input_file="PingResults.txt"
-output_file="ResultsAnalysis.txt"
-log_file="pingstorm.log"
-script_name=$(basename "$0")
+# =====================================================
+# ResultsAnalysis.sh – Analyzer for PingStorm Results
+# Author: TechCyberPoint Team
+# Description: Analyzes PingResults.txt for insights
+# =====================================================
 
+INPUT_FILE="PingResults.txt"
+OUTPUT_FILE="ResultsAnalysis.txt"
+LOG_FILE="ping_log.txt"
+SCRIPT_NAME=$(basename "$0")
+
+# Terminal colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-logToLog() {
+# Logging function (standardized across project)
+log_msg() {
 	local type=$1
 	local source=$2
 	local message=$3
 	local timestamp
 	timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-	local log_line="[${timestamp}] | ${type} | ${script_name}/${source} | ${message}"
-	echo "$log_line" >> "$log_file"
-	
+	local log_line="[${timestamp}] | ${type} | ${SCRIPT_NAME}/${source} | ${message}"
+	echo "$log_line" >> "$LOG_FILE"
+
 	case "$type" in
 		"INFO") echo -e "${BLUE}$log_line${NC}" ;;
-		"ERROR") echo -e "${RED}$log_line${NC}" ;;
 		"SUCCESS") echo -e "${GREEN}$log_line${NC}" ;;
+		"ERROR") echo -e "${RED}$log_line${NC}" ;;
 		"WARN") echo -e "${YELLOW}$log_line${NC}" ;;
 		*) echo "$log_line" ;;
 	esac
 }
 
-SlowestAndFastest() {
-	logToLog "INFO" "SlowestAndFastest" "Starting search for Slowest and Fastest"
+# -----------------------------------------------------
+# Function: Identify the slowest and fastest domain
+# -----------------------------------------------------
+find_slowest_and_fastest() {
+	log_msg "INFO" "find_slowest_and_fastest" "Analyzing slowest and fastest domains..."
 
-	local fastestTime=9999999
-	local fastestSite=""
-	local slowestTime=0
-	local slowestSite=""
+	local fastest_time=9999999
+	local fastest_site=""
+	local slowest_time=0
+	local slowest_site=""
 
-	while read -r site t1 t2 t3 t4 t5 avgT; do
-		[[ -z "$site" || -z "$avgT" || ! "$avgT" =~ ^[0-9]+(\.[0-9]+)?$ ]] && continue
-		
-		# Fastest
-		if (( $(echo "$avgT < $fastestTime" | bc -l) )); then
-			fastestTime=$avgT
-			fastestSite=$site
+	while read -r site t1 t2 t3 t4 t5 avg; do
+		[[ -z "$site" || -z "$avg" || ! "$avg" =~ ^[0-9]+(\.[0-9]+)?$ ]] && continue
+
+		if (( $(echo "$avg < $fastest_time" | bc -l) )); then
+			fastest_time=$avg
+			fastest_site=$site
 		fi
-
-		# Slowest
-		if (( $(echo "$avgT > $slowestTime" | bc -l) )); then
-			slowestTime=$avgT
-			slowestSite=$site
+		if (( $(echo "$avg > $slowest_time" | bc -l) )); then
+			slowest_time=$avg
+			slowest_site=$site
 		fi
-	done < "$input_file"
-	logToLog "INFO" "SlowestAndFastest" "Found slowest and fastest sites"
+	done < "$INPUT_FILE"
 
-	if [[ -n "$slowestSite" && -n "$fastestSite" ]]; then
-		echo "Slowest: $slowestSite $slowestTime" >> "$output_file"
-		echo "Fastest: $fastestSite $fastestTime" >> "$output_file"
-		logToLog "INFO" "SlowestAndFastest" "wrote to output file"
-
+	if [[ -n "$fastest_site" && -n "$slowest_site" ]]; then
+		echo "Slowest: $slowest_site $slowest_time" >> "$OUTPUT_FILE"
+		echo "Fastest: $fastest_site $fastest_time" >> "$OUTPUT_FILE"
+		log_msg "SUCCESS" "find_slowest_and_fastest" "Summary written to output file"
 	else
-		logToLog "ERROR" "SlowestAndFastest" "Failed to determine slowest and fastest"
+		log_msg "ERROR" "find_slowest_and_fastest" "Could not determine slowest/fastest"
 	fi
 }
 
-RankByAvg() {
-	logToLog "INFO" "RankByAvg" "Starting ranking by average"
+# -----------------------------------------------------
+# Function: Rank domains by average latency
+# -----------------------------------------------------
+rank_by_avg_latency() {
+	log_msg "INFO" "rank_by_avg_latency" "Sorting domains by average latency..."
 
-	echo "Ranking:" >> "$output_file"
-	if sort -k7 -n "$input_file" | awk '{print $1, $7}' >> "$output_file"; then
-		logToLog "INFO" "RankByAvg" "Wrote ranking to $output_file"
+	echo "Ranking:" >> "$OUTPUT_FILE"
+	if sort -k7 -n "$INPUT_FILE" | awk '{print $1, $7}' >> "$OUTPUT_FILE"; then
+		log_msg "SUCCESS" "rank_by_avg_latency" "Ranking written to output file"
 	else
-		logToLog "ERROR" "RankByAvg" "Failed to rank sites"
+		log_msg "ERROR" "rank_by_avg_latency" "Failed to write ranking"
 	fi
 }
 
-calculateAvgOfAvg() {
-	logToLog "INFO" "calculateAvgOfAvg" "Starting avg-of-avg calculation"
+# -----------------------------------------------------
+# Function: Calculate overall average of all avg latencies
+# -----------------------------------------------------
+calculate_avg_of_avg() {
+	log_msg "INFO" "calculate_avg_of_avg" "Calculating global average..."
 
-	local avgSum=0
-	local numberOfSites=0
+	local total=0
+	local count=0
 
-	while read -r site t1 t2 t3 t4 t5 avgT; do
-		[[ -z "$site" || -z "$avgT" ]] && continue
-		
-		avgSum=$(echo "$avgSum + $avgT" | bc -l)
-		(( numberOfSites++ ))
-	done < "$input_file"
+	while read -r site t1 t2 t3 t4 t5 avg; do
+		[[ -z "$site" || -z "$avg" || ! "$avg" =~ ^[0-9]+(\.[0-9]+)?$ ]] && continue
+		total=$(echo "$total + $avg" | bc -l)
+		((count++))
+	done < "$INPUT_FILE"
 
-	if (( numberOfSites > 0 )); then
-		echo "Overall avg latency: $(echo "scale=3; $avgSum / $numberOfSites" | bc -l)" >> "$output_file"
-		logToLog "INFO" "calculateAvgOfAvg" "Calculated avg-of-avg successfully"
+	if (( count > 0 )); then
+		local result=$(echo "scale=3; $total / $count" | bc -l)
+		echo "Overall avg latency: $result" >> "$OUTPUT_FILE"
+		log_msg "SUCCESS" "calculate_avg_of_avg" "Global avg: $result"
 	else
-		logToLog "ERROR" "calculateAvgOfAvg" "No valid data to calculate avg-of-avg"
+		log_msg "ERROR" "calculate_avg_of_avg" "No data for avg-of-avg"
 	fi
 }
 
-# Script execution starts here
-logToLog "INFO" "init" "Script started"
+# -----------------------------------------------------
+# Execution starts here
+# -----------------------------------------------------
+
+log_msg "INFO" "init" "Analysis script started."
 
 # Validate input file
-if [[ ! -f "$input_file" ]]; then
-	echo "Error: Input file does not exist!"
-	logToLog "ERROR" "init" "Input file does not exist"
+if [[ ! -f "$INPUT_FILE" ]]; then
+	log_msg "ERROR" "init" "Input file '$INPUT_FILE' does not exist"
 	exit 1
 fi
 
-if [[ ! -s "$input_file" ]]; then
-	echo "Error: Input file is empty!"
-	logToLog "ERROR" "init" "Input file is empty"
+if [[ ! -s "$INPUT_FILE" ]]; then
+	log_msg "ERROR" "init" "Input file '$INPUT_FILE' is empty"
 	exit 1
 fi
 
-# Clear output file at the start to avoid appending to old results
-> "$output_file"
-logToLog "INFO" "init" "input file exist and valid"
+# Clear previous output
+> "$OUTPUT_FILE"
+log_msg "INFO" "init" "Input file is valid. Output file cleared."
 
-logToLog "INFO" "main" "starting main analysis"
+# Run analysis
+find_slowest_and_fastest
+rank_by_avg_latency
+calculate_avg_of_avg
 
-
-SlowestAndFastest
-RankByAvg
-calculateAvgOfAvg
-
-logToLog "SUCCESS" "main" "Finished script successfully"
+log_msg "SUCCESS" "main" "Analysis completed successfully."
