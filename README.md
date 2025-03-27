@@ -52,7 +52,7 @@ PingStormProject/
 ├── TargetPing.txt         # List of domains to scan
 ├── PingResults.txt        # Ping test raw results
 ├── ResultsAnalysis.txt    # Analysis summary output
-├── ping_log.txt           # Unified execution log
+├── pingstorm.log           # Unified execution log
 ```
 
 ---
