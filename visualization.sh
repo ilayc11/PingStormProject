@@ -2,13 +2,13 @@
 
 file="ResultsAnalysis.txt"
 
-# Check if file exists
+# Checking if the file  exists
 if [ ! -f "$file" ]; then
     echo "❌ Error: $file not found!"
     exit 1
 fi
 
-#Extract summary lines
+# Extracting summary lines
 slowest_line=$(grep "Slowest" $file)
 fastest_line=$(grep "Fastest" $file)
 overall_avg=$(grep "Overall avg latency" $file | awk '{print $NF}')
