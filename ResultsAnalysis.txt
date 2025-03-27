@@ -1,6 +1,9 @@
-Slowest: google.com 20
-Fastest: google.com 20
+Slowest: facebook.com 55.82
+Fastest: tiktok.com 7.93
 Ranking:
-facebook.com 20
-google.com 20
-Overall avg latency: 20.000
+netflix.com 
+tiktok.com 7.93
+youtube.com 8.82
+google.com 9.12
+facebook.com 55.82
+Overall avg latency: 20.422

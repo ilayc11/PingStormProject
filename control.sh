@@ -10,7 +10,7 @@ PINGSTORM_SCRIPT="./PingStorm.sh"
 ANALYSIS_SCRIPT="./ResultsAnalysis.sh"
 REPORT_SCRIPT="./visualization.sh"
 
-LOG_FILE="ping_log.txt"
+LOG_FILE="pingstorm.log"
 PID_FILE="pingstorm.pid"
 TARGET_FILE="TargetPing.txt"
 SCRIPT_NAME=$(basename "$0")

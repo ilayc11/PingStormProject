@@ -11,7 +11,7 @@
 # ---------- Files ----------
 TARGET_FILE="TargetPing.txt"
 RESULT_FILE="PingResults.txt"
-LOG_FILE="ping_log.txt"
+LOG_FILE="pingstorm.log"
 SCRIPT_NAME="PingStorm.sh"
 
 # ---------- Terminal Colors ----------
@@ -57,6 +57,7 @@ if [ ! -f "$TARGET_FILE" ]; then
   echo "File $TARGET_FILE is missing. Exiting."
   exit 1
 fi
+> "$RESULT_FILE"
 
 # ---------- Ping Function ----------
 ping_target() {

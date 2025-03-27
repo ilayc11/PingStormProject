@@ -1,9 +1,6 @@
 # PingStormProject
 
 ## 🚀 PingStorm.sh – TechCyberPoint
-**Project Leads:** Yosi Leviev + Ofir Or + Team TCP
-
----
 
 ## 🎯 Project Overview
 
@@ -19,11 +16,13 @@ It enables teams to:
 
 ## 🧰 Core Features
 
-- ✅ Reads target domains from `TargetPing.txt`
+- ✅ Reads target domains from (`TargetPing.txt`)
 - ✅ Sends 5 ICMP ping requests per domain
 - ✅ Resolves IP address using `getent`
 - ✅ Logs results in clean tabular format (`PingResults.txt`)
-- ✅ Displays colored logs in terminal and saves them (`ping_log.txt`)
+- ✅ Analyze the data and extract statistics into ordered text file (`ResultsAnalysis.txt`)
+- ✅ Visualize the extracted ordered data
+- ✅ Displays colored logs in terminal and saves them (`pingstorm.log`)
 - ✅ Calculates and appends average response time per domain
 - ✅ Fully modular and ready for scripting pipelines
 
@@ -97,9 +96,10 @@ Alternatively, run manually:
   - Full ranking by latency
   - Overall average
 
-### 📕 `ping_log.txt`
+### 📕 `pingstorm.log`
 - Full logs of all scripts
 - Uses format:
+
   ```
   [YYYY-MM-DD HH:MM:SS] | TYPE | ScriptName/Function | Message
   ```
@@ -154,18 +154,3 @@ youtube.com      | ██████████                         25.00 
 
 ---
 
-## 🧑‍🤝‍🧑 Team & Credits
-
-This project was developed by the **TCP – TechCyberPoint** team:
-- 👨‍💻 Yosi Leviev (Lead developer)
-- 🧠 Ofir Or (Logic and analysis)
-- 🌐 Community contributions (coming soon)
-
----
-
-## 📬 Contact
-
-For collaborations, feedback, or contributions:
-📩 [LinkedIn Group – TCP](https://www.linkedin.com/groups/9897560/)
-
----

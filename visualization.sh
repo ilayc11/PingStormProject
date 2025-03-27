@@ -6,7 +6,7 @@
 # ==========================================================
 
 FILE="ResultsAnalysis.txt"
-LOG_FILE="ping_log.txt"
+LOG_FILE="pingstorm.log"
 SCRIPT_NAME=$(basename "$0")
 
 # Terminal colors
